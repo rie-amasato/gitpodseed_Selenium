@@ -1,0 +1,18 @@
+ports:
+ - port: 8888
+   onOpen: open-browser
+tasks:
+  - name: install_chrome
+    before: |
+      sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+      sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+      sudo apt update
+      echo 'y' | sudo apt install google-chrome-stable
+  - name: open_jupyter
+    init: "pip install --upgrade pip"
+    before: |
+      pip install -r requirements.txt
+      pip uninstall -y notebook
+      pip uninstall -y notebook
+      pip install notebook==6.0.0
+    command: "jupyter notebook --ip=* --NotebookApp.token=''"
