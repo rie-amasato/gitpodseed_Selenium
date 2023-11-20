@@ -8,6 +8,10 @@ tasks:
       sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
       sudo apt update
       echo 'y' | sudo apt install google-chrome-stable
+      chromever=(`google-chrome-stable --version`)
+      numver=(${chromever[2]//./ })
+      pip uninstall -y chromedriver_binary
+      pip install chromedriver_binary==${numver[0]}.*
   - name: open_jupyter
     init: "pip install --upgrade pip"
     before: |
